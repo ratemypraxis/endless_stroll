@@ -5,6 +5,4 @@ html, body {
 }
 canvas {
   display: block;
-  max-width: 50%;
-  overflow: visible;
 }
