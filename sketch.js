@@ -1,12 +1,7 @@
 let synth;
-let notes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5",
-];
+let notes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5"];
 let interval;
-
-//for recording & audio file creation 
-
-// let recorder;
-// let soundFile;
+let button;
 
 function preload() {
   skyImg = loadImage("imgs/sky.JPG");
@@ -14,33 +9,44 @@ function preload() {
 
 function setup() {
   cnv = createCanvas(windowWidth, windowHeight);
-  // skyImg.filter(BLUR, 7);
   background(skyImg);
   textAlign(CENTER);
   textSize(32);
   fill(255);
   stroke(0);
-  strokeWeight(2)
-  text("Endless Stroll", width / 2, height / 2);
+  strokeWeight(2);
 
+  button = createButton("Endless Stroll");
+  button.position(width / 2 - button.width / 2, height / 2 - button.height / 2);
+
+  button.mousePressed(startMusic);
+
+  button.style('background-color', '#ffffff');
+  button.style('border', '2px solid #333333');
+  button.style('border-radius', '20px');
+  button.style('padding', '10px 20px');
+  button.style('font-size', '24px');
+  button.style('box-shadow', '0px 4px 8px rgba(0, 0, 0, 0.2)');
+}
+
+function startMusic() {
   synth = new p5.PolySynth();
+  playNote();
 
-//for recording & audio file creation 
-
-  // recorder = new p5.SoundRecorder();
-  // soundFile = new p5.SoundFile();
-  // setTimeout(startRecording, 1000);
-  between();
+  button.hide();
 }
 
 function playNote() {
   try {
-    let noteCount = int(random(1, 4));
+    let noteCount = int(random(1, 4)); 
     let duration = random(2, 6);
-    for (let i = 0; i < noteCount; i++) {
+    let index = 0;
+
+    while (index < noteCount) {
       let note = random(notes);
       let velocity = random(0.2, 0.5);
       synth.play(note, velocity, 0, duration);
+      index++; 
     }
   } catch (error) {
     console.error(error);
@@ -53,14 +59,3 @@ function between() {
   let space = random(300, 1000);
   interval = setTimeout(playNote, space);
 }
-
-//for recording & audio file creation 
-
-// function startRecording() {
-//     recorder.setInput();
-//     recorder.record(soundFile, 30, saveRecording);
-// }
-
-// function saveRecording() {
-//     save(soundFile, 'chillGenMelody.mp3');
-// }
